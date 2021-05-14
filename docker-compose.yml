@@ -1,0 +1,29 @@
+version: '3.8'
+services: 
+        db:
+                build: ./mysql
+                image: mysql:v1
+                container_name: mysql
+                networks:
+                        - php-net
+        web:
+                build: ./php
+                image: php-app:v1
+                container_name: php
+                ports:
+                        - 8080:80
+                networks:
+                        - php-net
+                depends_on:
+                        - db
+        phpmyadmin:
+                image: phpmyadmin:latest
+                container_name: phpmyadmin
+                ports:
+                        - 8086:80
+                networks:
+                        - php-net
+                depends_on:
+                        - db
+networks:
+        php-net:
